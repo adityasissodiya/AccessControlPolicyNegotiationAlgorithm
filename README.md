@@ -4,7 +4,7 @@ This repository contains the implementation and experimental setup for evaluatin
 
 ## Objective
 
-The primary objective of this experiment is to validate the effectiveness of the ABAC policy negotiation algorithm in identifying the optimal policy (\(P^*\)) that maximizes aggregate utility, considering diverse stakeholder preferences and criteria such as security, usability, and compliance.
+The primary objective of this experiment is to validate the effectiveness of the ABAC policy negotiation algorithm in identifying the optimal policy $(P^*\)$ that maximizes aggregate utility, considering diverse stakeholder preferences and criteria such as security, usability, and compliance.
 
 ## Experiment Setup
 
