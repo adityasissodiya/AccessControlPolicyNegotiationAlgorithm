@@ -48,3 +48,9 @@ The primary objective of this experiment is to validate the effectiveness of the
 
 - Python 3.x
 - Libraries: numpy, matplotlib, seaborn (for visualizations)
+
+## Figures
+![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/aggregateUtilityOfPolicies.png)
+![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/consensusAchievementUtilityThreshold.png)
+![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/stakeholderUtilityMap.png)
+![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/utilityScoreDistribution.png)
