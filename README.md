@@ -10,9 +10,9 @@ The primary objective of this experiment is to validate the effectiveness of the
 
 ### Data Preparation
 
-- **Policies (\(P\))**: A predefined set of potential ABAC policies with varied attributes.
-- **Stakeholders (\(A\))**: A group of stakeholders with distinct preferences, represented by weights (\(w_{a_i,l}\)) assigned to different criteria.
-- **Criteria Evaluation Functions (\(f_l(P_j)\))**: Functions that assess policies based on specific criteria.
+- **Policies $(P\)$**: A predefined set of potential ABAC policies with varied attributes.
+- **Stakeholders $(A\)$**: A group of stakeholders with distinct preferences, represented by weights $(w_{a_i,l}\)$ assigned to different criteria.
+- **Criteria Evaluation Functions $(f_l(P_j)\))$**: Functions that assess policies based on specific criteria.
 
 ### Implementation Steps
 
