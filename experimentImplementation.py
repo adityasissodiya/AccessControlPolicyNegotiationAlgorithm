@@ -1,22 +1,24 @@
 # Policies
 policies = [
-    {"name": "policyA", "cost_efficiency": 8, "environmental_impact": 9, "community_benefit": 5},
-    {"name": "policyB", "cost_efficiency": 6, "environmental_impact": 7, "community_benefit": 8},
-    {"name": "policyC", "cost_efficiency": 7, "environmental_impact": 6, "community_benefit": 9}
+    {"name": "policyA", "security": 8, "utility": 9, "privacy": 5, "accessibility": 4},
+    {"name": "policyB", "security": 4, "utility": 5, "privacy": 9, "accessibility": 8},
+    {"name": "policyC", "security": 1, "utility": 2, "privacy": 3, "accessibility": 6}
 ]
 
 # Stakeholders
 stakeholders = [
-    {"name": "environmental_group", "weights": {"cost_efficiency": 0.1, "environmental_impact": 0.7, "community_benefit": 0.2}},
-    {"name": "local_government", "weights": {"cost_efficiency": 0.3, "environmental_impact": 0.3, "community_benefit": 0.4}},
-    {"name": "business_owners", "weights": {"cost_efficiency": 0.6, "environmental_impact": 0.2, "community_benefit": 0.2}}
+    {"name": "car_workshop", "weights": {"security": 0.1, "utility": 0.7, "privacy": 0.2, "accessibility": 0.2}},
+    {"name": "car_owner", "weights": {"security": 0.3, "utility": 0.3, "privacy": 0.4, "accessibility": 0.4}},
+    {"name": "car_manufacturer", "weights": {"security": 0.6, "utility": 0.2, "privacy": 0.2, "accessibility": 0.6}},
+    {"name": "insurance_company", "weights": {"security": 0.1, "utility": 0.7, "privacy": 0.2, "accessibility": 0.8}}
 ]
 
 #Influence of Stakeholders
 alpha = {
-    "environmental_group": 1.5,  # Higher influence
-    "local_government": 1.0,     # Standard influence
-    "business_owners": 0.5       # Lower influence
+    "car_workshop": 1.5,  # Higher influence
+    "car_owner": 1.0,     # Standard influence
+    "car_manufacturer": 0.5,    # Lower influence
+    "insurance_company": 0.2    #Lowest influence
 }
 
 # Utility Threshold for Consensus

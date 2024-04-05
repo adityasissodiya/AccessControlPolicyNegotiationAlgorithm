@@ -3,7 +3,7 @@ import numpy as np
 from experimentImplementation import calculate_aggregate_utility, policies, stakeholders, find_optimal_policy
 
 # Assuming these are your stakeholder names
-stakeholder_names = ["environmental_group", "local_government", "business_owners"]
+stakeholder_names = ["car_workshop", "car_owner", "car_manufacturer", "insurance_company"]
 
 # Initialize a dictionary to hold the optimal policy for each alpha scenario
 optimal_policies = {name: [] for name in stakeholder_names}
