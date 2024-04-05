@@ -4,15 +4,15 @@ This repository contains the implementation and experimental setup for evaluatin
 
 ## Objective
 
-The primary objective of this experiment is to validate the effectiveness of the ABAC policy negotiation algorithm in identifying the optimal policy (\(P^*\)) that maximizes aggregate utility, considering diverse stakeholder preferences and criteria such as security, usability, and compliance.
+The primary objective of this experiment is to validate the effectiveness of the ABAC policy negotiation algorithm in identifying the optimal policy $(P^*\)$ that maximizes aggregate utility, considering diverse stakeholder preferences and criteria such as security, usability, and compliance.
 
 ## Experiment Setup
 
 ### Data Preparation
 
-- **Policies (\(P\))**: A predefined set of potential ABAC policies with varied attributes.
-- **Stakeholders (\(A\))**: A group of stakeholders with distinct preferences, represented by weights (\(w_{a_i,l}\)) assigned to different criteria.
-- **Criteria Evaluation Functions (\(f_l(P_j)\))**: Functions that assess policies based on specific criteria.
+- **Policies $(P\)$**: A predefined set of potential ABAC policies with varied attributes.
+- **Stakeholders $(A\)$**: A group of stakeholders with distinct preferences, represented by weights $(w_{a_i,l}\)$ assigned to different criteria.
+- **Criteria Evaluation Functions $(f_l(P_j)\))$**: Functions that assess policies based on specific criteria.
 
 ### Implementation Steps
 
@@ -48,3 +48,9 @@ The primary objective of this experiment is to validate the effectiveness of the
 
 - Python 3.x
 - Libraries: numpy, matplotlib, seaborn (for visualizations)
+
+## Figures
+![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/aggregateUtilityOfPolicies.png)
+![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/consensusAchievementUtilityThreshold.png)
+![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/stakeholderUtilityMap.png)
+![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/utilityScoreDistribution.png)
