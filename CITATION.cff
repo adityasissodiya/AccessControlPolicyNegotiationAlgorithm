@@ -1,0 +1,28 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Access Control Policy Negotiation Algorith
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Aditya
+    family-names: Sissodiya
+    email: aditya.sissodiya@ltu.se
+    affiliation: Luleå University of Technology
+abstract: >-
+  Managing access control within digital ecosystems presents
+  unique challenges, particularly regarding policy
+  negotiation among diverse stakeholders. This paper
+  introduces a novel algorithm based on game theory and
+  objective optimization to facilitate consensus on access
+  control policies, ensuring equitable data access while
+  safeguarding confidentiality and compliance. Through a
+  systematic approach, we demonstrate the efficacy of our
+  model in balancing competing objectives and streamlining
+  policy negotiation processes, thereby enhancing the
+  operational efficiency and trust within digital
+  ecosystems.
+license: GPL-3.0
