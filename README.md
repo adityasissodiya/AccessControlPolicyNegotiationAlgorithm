@@ -1,16 +1,16 @@
-# ABAC Policy Negotiation Algorithm Experiment
+# Access Control Policy Negotiation Algorithm Experiment
 
-This repository contains the implementation and experimental setup for evaluating an Attribute-Based Access Control (ABAC) policy negotiation algorithm. The algorithm optimizes policy selection based on the collective preferences of multiple stakeholders through utility functions.
+This repository contains the implementation and experimental setup for evaluating the access control policy negotiation algorithm. The algorithm optimizes policy selection based on the collective preferences of multiple stakeholders through utility functions.
 
 ## Objective
 
-The primary objective of this experiment is to validate the effectiveness of the ABAC policy negotiation algorithm in identifying the optimal policy $(P^*\)$ that maximizes aggregate utility, considering diverse stakeholder preferences and criteria such as security, usability, and compliance.
+The primary objective of this experiment is to validate the effectiveness of the policy negotiation algorithm in identifying the optimal policy $(P^*\)$ that maximizes aggregate utility, considering diverse stakeholder preferences and criteria such as security, usability, and compliance.
 
 ## Experiment Setup
 
 ### Data Preparation
 
-- **Policies $(P\)$**: A predefined set of potential ABAC policies with varied attributes.
+- **Policies $(P\)$**: A predefined set of potential access control policies with varied attributes.
 - **Stakeholders $(A\)$**: A group of stakeholders with distinct preferences, represented by weights $(w_{a_i,l}\)$ assigned to different criteria.
 - **Criteria Evaluation Functions $(f_l(P_j)\))$**: Functions that assess policies based on specific criteria.
 
