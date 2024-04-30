@@ -22,7 +22,7 @@ The primary objective of this experiment is to validate the effectiveness of the
 4. **Consensus Check**: Determine if the optimal policy achieves consensus among stakeholders.
 5. **Policy Selection**: Select the policy if it meets consensus; otherwise, adjust and iterate.
 
-Please find the real world scenario implementaion in the /realWorldScenario directory of the repository.
+**Please find the real world scenario implementaion in the /realWorldScenario directory of the repository.**
 
 # Policy Evaluation Tool
 
@@ -48,11 +48,12 @@ This application is built using Flask and PostgreSQL for the backend and simple 
 - Docker
 
 ### Build and run the docker container image
-sudo docker-compose up --build
-The application should now be running on http://localhost:5000.
+- sudo docker-compose up --build
+- The application should now be running on http://localhost:5000.
 
 ### Access the application
-Navigate to app/templates/index.html and open the file in a browser
+- Navigate to app/templates/index.html and open the file in a browser.
+- You can now interact with the tool.
 
 ## Figures
 ![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/aggregateUtilityOfPolicies.png)
