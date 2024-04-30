@@ -22,32 +22,37 @@ The primary objective of this experiment is to validate the effectiveness of the
 4. **Consensus Check**: Determine if the optimal policy achieves consensus among stakeholders.
 5. **Policy Selection**: Select the policy if it meets consensus; otherwise, adjust and iterate.
 
-## Metrics
+Please find the real world scenario implementaion in the /realWorldScenario directory of the repository.
 
-- Individual and aggregate utility scores.
-- Degree of consensus among stakeholders.
-- Sensitivity to changes in stakeholders' weights and preferences.
+# Policy Evaluation Tool
 
-## Visualizations
+The Policy Evaluation Tool is designed to assist in the evaluation and optimization of various policies by considering the influence of stakeholders and their assigned weights to different policy attributes. This tool allows users to add policies and stakeholders, assign and update weights, and calculate the optimal policy based on the aggregate utility of each policy while considering the consensus among stakeholders.
 
-- Bar Chart for Individual Stakeholder Utilities
-- Heatmap for Weight Assignments
-- Line Graph for Aggregate Utilities
-- Scatter Plot for Optimization and Consensus
-- Spider Chart for Policy Evaluation on Criteria
-- Sensitivity Analysis Graphs
+![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/indexHtmlScreenshot.png)
 
-## Analysis
+## Features
 
-- **Alignment**: Evaluate the alignment of the selected policy with collective preferences.
-- **Consensus Achievement**: Assess consensus achievement among stakeholders.
-- **Stakeholder Influence Impact**: Investigate the impact of stakeholder influence on policy selection.
-- **Policy Attributes Sensitivity**: Examine the sensitivity of policy selection to changes in policy attributes and stakeholder preferences.
+- **Add Policies**: Users can add new policies with specific attributes such as security, utility, privacy, and accessibility scores.
+- **Add Stakeholders**: Users can add stakeholders and define their influence levels.
+- **Assign Weights**: Assign weights to different policy attributes from the perspective of each stakeholder.
+- **Calculate Optimal Policy**: Calculate which policy has the highest aggregate utility based on the weights assigned by all stakeholders.
+- **Check Consensus**: Check if the optimal policy reaches a consensus among stakeholders based on a defined utility threshold.
 
-## Requirements
+## Installation
 
-- Python 3.x
-- Libraries: numpy, matplotlib, seaborn (for visualizations)
+This application is built using Flask and PostgreSQL for the backend and simple HTML/CSS/JavaScript for the frontend. Here are the steps to get it up and running:
+
+### Prerequisites
+
+- Python 3.8 or higher
+- Docker
+
+### Build and run the docker container image
+sudo docker-compose up --build
+The application should now be running on http://localhost:5000.
+
+### Access the application
+Navigate to app/templates/index.html and open the file in a browser
 
 ## Figures
 ![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/aggregateUtilityOfPolicies.png)
