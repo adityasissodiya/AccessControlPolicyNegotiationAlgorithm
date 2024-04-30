@@ -56,7 +56,8 @@ This application is built using Flask and PostgreSQL for the backend and simple 
 - You can now interact with the tool.
 
 ## Figures
-![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/aggregateUtilityOfPolicies.png)
-![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/consensusAchievementUtilityThreshold.png)
-![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/stakeholderUtilityMap.png)
+![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/stakeholderUtilityHeatmap.png)
+![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/utilitiesDistributionBoxGraph.png)
+![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/utilityScoreBarGraph.png)
 ![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/utilityScoreDistribution.png)
+![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/consensusAchievementUtilityThreshold.png)
