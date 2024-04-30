@@ -22,6 +22,26 @@ def get_policy_by_name(name):
     else:
         return 'Policy not found', 404
 
+@app.route('/update/policy', methods=['POST'])
+def update_policy():
+    data = request.get_json()
+    if not data or 'policy_name' not in data or 'details' not in data:
+        return jsonify({'error': 'Missing policy name or details'}), 400
+
+    policy_name = data['policy_name']
+    policy = Policy.query.filter_by(name=policy_name).first()
+    if not policy:
+        return jsonify({'error': 'Policy not found'}), 404
+
+    try:
+        # Assuming 'details' is a dictionary with updated scores
+        policy.details = data['details']
+        db.session.commit()
+        return jsonify({'message': 'Policy updated successfully'}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/get/stakeholders', methods=['GET'])
 def get_stakeholders():
     stakeholders = Stakeholder.query.all()
@@ -70,6 +90,127 @@ def add_weight():
     db.session.add(new_weight)
     db.session.commit()
     return jsonify({'message': 'Weight added successfully'}), 201
+
+@app.route('/get/weight/<stakeholder_name>/<policy_name>', methods=['GET'])
+def get_weight(stakeholder_name, policy_name):
+    stakeholder = Stakeholder.query.filter_by(name=stakeholder_name).first()
+    if not stakeholder:
+        return jsonify({'error': 'Stakeholder not found'}), 404
+
+    policy = Policy.query.filter_by(name=policy_name).first()
+    if not policy:
+        return jsonify({'error': 'Policy not found'}), 404
+
+    weight_entry = Weight.query.filter_by(stakeholder_id=stakeholder.stakeholder_id, policy_id=policy.policy_id).first()
+    if weight_entry:
+        return jsonify({
+            'stakeholder': stakeholder_name,
+            'policy': policy_name,
+            'weights': weight_entry.weights  # Returning the JSONB data directly
+        })
+    else:
+        return jsonify({'error': 'No weights assigned by this stakeholder to this policy'}), 404
+
+@app.route('/update/weights', methods=['POST'])
+def update_weights():
+    if not request.json or 'policy_name' not in request.json or 'stakeholder_name' not in request.json or 'weights' not in request.json:
+        abort(400, description="Missing policy_name, stakeholder_name, or weights in request")
+
+    policy_name = request.json['policy_name']
+    stakeholder_name = request.json['stakeholder_name']
+    weights = request.json['weights']
+
+    # Fetch the policy and stakeholder by name
+    policy = Policy.query.filter_by(name=policy_name).first()
+    if not policy:
+        return jsonify({'error': f"Policy named '{policy_name}' not found"}), 404
+
+    stakeholder = Stakeholder.query.filter_by(name=stakeholder_name).first()
+    if not stakeholder:
+        return jsonify({'error': f"Stakeholder named '{stakeholder_name}' not found"}), 404
+
+    # Check if there is already an entry in the Weight table
+    weight_entry = Weight.query.filter_by(stakeholder_id=stakeholder.stakeholder_id, policy_id=policy.policy_id).first()
+    if weight_entry:
+        weight_entry.weights = weights
+        action = 'Updated'
+    else:
+        weight_entry = Weight(stakeholder_id=stakeholder.stakeholder_id, policy_id=policy.policy_id, weights=weights)
+        db.session.add(weight_entry)
+        action = 'Created'
+
+    db.session.commit()
+    return jsonify({'message': f'Weights {action} successfully'}), 201 if action == 'Created' else 200
+
+def fetch_all_policies_with_weights():
+    # Fetch all policies
+    policies = Policy.query.all()
+    policy_list = []
+    for policy in policies:
+        # Fetch weights related to the current policy
+        weights = Weight.query.filter_by(policy_id=policy.policy_id).all()
+        # Convert weights to a list of dictionaries showing stakeholder and weight
+        weights_list = [{'stakeholder_id': weight.stakeholder_id, 'weights': weight.weights} for weight in weights]
+        # Append policy details and associated weights
+        policy_list.append({
+            'policy_id': policy.policy_id,
+            'name': policy.name,
+            'details': policy.details,
+            'weights': weights_list
+        })
+    return policy_list
+
+
+def fetch_all_stakeholders_with_weights():
+    stakeholders = Stakeholder.query.all()
+    stakeholder_list = []
+    for stakeholder in stakeholders:
+        # Fetch weights related to the current stakeholder
+        weights_entries = Weight.query.filter_by(stakeholder_id=stakeholder.stakeholder_id).all()
+        # Prepare a list of all weight dictionaries for the current stakeholder
+        weights_list = [weight.weights for weight in weights_entries]  # Directly use the JSONB data
+        stakeholder_list.append({
+            'stakeholder_id': stakeholder.stakeholder_id,
+            'name': stakeholder.name,
+            'influence': stakeholder.influence,
+            'weights': weights_list  # This is now a list of dictionaries
+        })
+    return stakeholder_list
+
+@app.route('/calculate/optimal_policy', methods=['POST'])
+def calculate_optimal_policy():
+    data = request.get_json()
+    utility_threshold = float(data.get('utilityThreshold', 0.75))  # Default to 0.75 if not provided
+    alpha_enabled = data.get('alphaEnabled', True)  # Default to True if not provided
+
+    policies = fetch_all_policies_with_weights()
+    stakeholders = fetch_all_stakeholders_with_weights()
+
+    if not policies or not stakeholders:
+        return jsonify({'error': 'Missing policies or stakeholders'}), 400
+
+    alpha = {stakeholder['name']: stakeholder['influence'] for stakeholder in stakeholders} if alpha_enabled else None
+
+    # Calculate aggregate utilities
+    aggregate_utilities = calculate_aggregate_utility(policies, stakeholders, alpha)
+
+    # Find the optimal policy
+    optimal_policy_name, optimal_policy_score = find_optimal_policy(aggregate_utilities)
+
+    # Find the full policy details from the list using the optimal policy name
+    optimal_policy = next((policy for policy in policies if policy['name'] == optimal_policy_name), None)
+    if not optimal_policy:
+        return jsonify({'error': 'Optimal policy not found'}), 404
+
+    # Check for consensus
+    consensus, stakeholders_utilities = check_for_consensus(optimal_policy, stakeholders, utility_threshold)
+
+    return jsonify({
+        'optimal_policy': optimal_policy_name,
+        'optimal_policy_score': optimal_policy_score,
+        'consensus': consensus,
+        'stakeholders_utilities': stakeholders_utilities
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)

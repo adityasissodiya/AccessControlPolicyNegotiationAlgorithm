@@ -40,6 +40,41 @@ function addPolicy() {
     .catch(error => console.error('Error adding policy:', error));
 }
 
+function updatePolicy() {
+    const policySelect = document.getElementById('policySelect');
+    const policyName = policySelect.options[policySelect.selectedIndex].text; // Get the selected option's text
+    const details = {
+        security: parseInt(document.getElementById('security').value),
+        utility: parseInt(document.getElementById('utility').value),
+        privacy: parseInt(document.getElementById('privacy').value),
+        accessibility: parseInt(document.getElementById('accessibility').value)
+    };
+
+    fetch('http://localhost:5000/update/policy', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            policy_name: policyName,  // Send the policy name
+            details: details
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert('Policy updated successfully!');
+        } else {
+            alert('Error: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Failed to update policy:', error);
+        alert('Failed to update policy. See console for more details.');
+    });
+}
+
+
 function addStakeholder() {
     const stakeholderName = document.getElementById('stakeholderName').value;
     const stakeholderInfluence = document.getElementById('addStakeholderInfluence').value;
@@ -147,3 +182,141 @@ document.getElementById('stakeholderSelect').addEventListener('change', () => {
     const selectedId = document.getElementById('stakeholderSelect').value;
     updateStakeholderForm(selectedId);
 });
+
+
+function fetchPoliciesAssign() {
+    fetch('http://localhost:5000/get/policies')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('assignPolicySelect');
+            select.innerHTML = '';  // Clear existing options
+            data.forEach(policy => {
+                let option = new Option(policy.name, policy.name);  // Set option value to policy.name
+                select.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching policies:', error));
+}
+
+function fetchStakeholdersAssign() {
+    fetch('http://localhost:5000/get/stakeholders')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('assignStakeholderSelect');
+            select.innerHTML = ''; // Clear existing options
+            data.forEach(stakeholder => {
+                let option = new Option(stakeholder.name, stakeholder.id);
+                select.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching stakeholders:', error));
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    fetchPoliciesAssign();
+    fetchStakeholdersAssign();
+    fetchWeightsAndUpdateForm()
+});
+
+function fetchWeightsAndUpdateForm() {
+    const policyName = document.getElementById('assignPolicySelect').value;
+    const stakeholderName = document.getElementById('assignStakeholderSelect').value;
+
+    const encodedPolicyName = encodeURIComponent(policyName);
+    const encodedStakeholderName = encodeURIComponent(stakeholderName);
+
+    fetch(`http://localhost:5000/get/weight/${encodedStakeholderName}/${encodedPolicyName}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.weights) {
+                // Assuming 'weights' is an object with properties: security, utility, privacy, accessibility
+                document.getElementById('securityWeightAssign').value = data.weights.security;
+                document.getElementById('securityWeightValue').innerText = data.weights.security;
+                document.getElementById('utilityWeightAssign').value = data.weights.utility;
+                document.getElementById('utilityWeightValue').innerText = data.weights.utility;
+                document.getElementById('privacyWeightAssign').value = data.weights.privacy;
+                document.getElementById('privacyWeightValue').innerText = data.weights.privacy;
+                document.getElementById('accessibilityWeightAssign').value = data.weights.accessibility;
+                document.getElementById('accessibilityWeightValue').innerText = data.weights.accessibility;
+            } else {
+                console.error('Error retrieving weights:', data.error);
+                alert('Failed to retrieve weights: ' + data.error);
+            }
+        })
+        .catch(error => console.error('Failed to fetch weights:', error));
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    fetchWeightsAndUpdateForm()
+});
+
+// You may want to add event listeners to the select elements to automatically fetch weights when the selection changes
+document.getElementById('assignPolicySelect').addEventListener('change', fetchWeightsAndUpdateForm);
+document.getElementById('assignStakeholderSelect').addEventListener('change', fetchWeightsAndUpdateForm);
+// Call fetchPolicies on page load or setup
+
+function updatePolicyWithStakeholderWeights() {
+    const policySelect = document.getElementById('assignPolicySelect');
+    const stakeholderSelect = document.getElementById('assignStakeholderSelect');
+    
+    const policyName = policySelect.options[policySelect.selectedIndex].text;
+    const stakeholderName = stakeholderSelect.options[stakeholderSelect.selectedIndex].text;
+    
+    const weights = {
+        security: parseFloat(document.getElementById('securityWeightAssign').value),
+        utility: parseFloat(document.getElementById('utilityWeightAssign').value),
+        privacy: parseFloat(document.getElementById('privacyWeightAssign').value),
+        accessibility: parseFloat(document.getElementById('accessibilityWeightAssign').value)
+    };
+
+    fetch('http://localhost:5000/update/weights', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            policy_name: policyName,
+            stakeholder_name: stakeholderName,
+            weights: weights
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message); // Displays a message from the server about the result
+    })
+    .catch(error => console.error('Error updating weights:', error));
+}
+
+function calculateOptimal() {
+    const utilityThresholdInput = document.getElementById('utilityThreshold').value;
+    if (!utilityThresholdInput) {
+        alert("Please enter a utility threshold");
+        return;
+    }
+
+    const utilityThreshold = parseFloat(utilityThresholdInput);
+    if (isNaN(utilityThreshold)) {
+        alert("Please enter a valid number for the utility threshold");
+        return;
+    }
+
+    fetch('http://localhost:5000/calculate/optimal_policy', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            utilityThreshold: utilityThreshold,
+            alphaEnabled: document.getElementById('alphaToggle').checked
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('optimalPolicyResult').innerText = `Optimal Policy: ${data.optimal_policy} (Score: ${data.optimal_policy_score}), Consensus: ${data.consensus ? 'Achieved' : 'Not achieved'}`;
+    })
+    .catch(error => {
+        console.error('Error calculating optimal policy:', error);
+        document.getElementById('optimalPolicyResult').innerText = 'Error calculating optimal policy.';
+    });
+}
+

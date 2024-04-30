@@ -7,9 +7,9 @@
 <link rel="stylesheet" type="text/css" href="../static/style.css">
 </head>
 <body>
-<div class="container">
     <h1>Policy Evaluation Tool</h1>
-    
+<div class="grid-container">
+<div>
     <h2>Add Policy</h2>
     <form id="policyForm">
         <input type="text" id="policyName" placeholder="Policy Name" required>
@@ -23,16 +23,20 @@
         <label for="addAccessibility">Accessibility Score: <span id="addAccessibilityValue">5</span></label>
         <button type="button" onclick="addPolicy()">Submit Policy</button>
     </form>
-    
+</div>
+
+<div>
     <h2>Add Stakeholder</h2>
-        <form id="stakeholderForm">
-        <input type="text" id="stakeholderName" placeholder="Stakeholder Name" required>
-        <input type="range" id="addStakeholderInfluence" min="0" max="2" step="0.1" value="0.5" oninput="updateInfluenceValue()">
-        <label for="addStakeholderInfluence">Influence: <span id="addStakeholderInfluenceValue">0.5</span></label>
-        <button type="button" onclick="addStakeholder()">Submit Stakeholder</button>
+    <form id="stakeholderForm">
+    <input type="text" id="stakeholderName" placeholder="Stakeholder Name" required>
+    <input type="range" id="addStakeholderInfluence" min="0" max="2" step="0.1" value="1" oninput="updateInfluenceValue()">
+    <label for="addStakeholderInfluence">Influence: <span id="addStakeholderInfluenceValue">0.5</span></label>
+    <button type="button" onclick="addStakeholder()">Submit Stakeholder</button>
     </form>
 
+</div>
 
+<div  >
     <h2>Update Policy</h2>
     <form id="policyForm">
         <label for="policySelect">Policy</label>
@@ -49,57 +53,61 @@
         <label for="accessibility">Accessibility Score: <span id="accessibilityValue">5</span></label>
         <button type="button" onclick="updatePolicy()">Submit Policy</button>
     </form>
-    
-    
+</div>
+
+<div>
     <h2>Update Stakeholder</h2>
     <form id="stakeholderForm">
         <label for="stakeholderSelect">Stakeholder</label>
         <select id="stakeholderSelect" onchange="updateStakeholderForm()">
         <!-- Options will be populated dynamically from the database -->
         </select>
-        <input type="range" id="stakeholderInfluence" min="0" max="2" step="0.1" value="0.5" oninput="document.getElementById('stakeholderInfluenceValue').innerText = this.value.toFixed(1)">
+        <input type="range" id="stakeholderInfluence" min="0" max="2" step="0.1" value="1" oninput="document.getElementById('stakeholderInfluenceValue').innerText = this.value.toFixed(1)">
         <label for="stakeholderInfluence">Influence: <span id="stakeholderInfluenceValue">0.5</span></label>
         <button type="button" onclick="upDateStakeholder()">Submit Stakeholder</button>
     </form>
 
+</div>
 
-
+<div>
     <!-- Update Existing Policy -->
-    <div id="updatePolicyDiv">
+    <div id="assignPolicyDiv">
         <h2>Assign Policy Weights</h2>
-        <label for="policySelect">Policy</label>
-        <select id="policySelect">
+        <label for="assignPolicySelect">Policy</label>
+        <select id="assignPolicySelect">
             <!-- Options will be populated dynamically from the database -->
         </select>
-        <label for="stakeholderSelect">Stakeholder</label>
-        <select id="stakeholderSelect">
+        <label for="assignStakeholderSelect">Stakeholder</label>
+        <select id="assignStakeholderSelect">
             <!-- Options will be populated dynamically from the database -->
         </select>
-        <input type="range" id="stakeholderSecurity" min="0" max="1" step="0.1" value="0.5">
-        <label for="stakeholderSecurity">Security Weight: <span id="stakeholderSecurityValue">0.5</span></label>
-        <input type="range" id="stakeholderUtility" min="0" max="1" step="0.1" value="0.5">
-        <label for="stakeholderUtility">Utility Weight: <span id="stakeholderUtilityValue">0.5</span></label>
-        <input type="range" id="stakeholderPrivacy" min="0" max="1" step="0.1" value="0.5">
-        <label for="stakeholderPrivacy">Privacy Weight: <span id="stakeholderPrivacyValue">0.5</span></label>
-        <input type="range" id="stakeholderAccessibility" min="0" max="1" step="0.1" value="0.5">
-        <label for="stakeholderAccessibility">Accessibility Weight: <span id="stakeholderAccessibilityValue">0.5</span></label>
-        <form id="updatePolicyForm">
-            <!-- Inputs to update the selected policy; values populated dynamically -->
+        <input type="range" id="securityWeightAssign" min="0" max="1" step="0.1" value="0.5" oninput="document.getElementById('securityWeightValue').innerText = this.value;">
+        <label for="securityWeightAssign">Security Weight: <span id="securityWeightValue">0.5</span></label>
+        <input type="range" id="utilityWeightAssign" min="0" max="1" step="0.1" value="0.5" oninput="document.getElementById('utilityWeightValue').innerText = this.value;">
+        <label for="utilityWeightAssign">Utility Weight: <span id="utilityWeightValue">0.5</span></label>
+        <input type="range" id="privacyWeightAssign" min="0" max="1" step="0.1" value="0.5" oninput="document.getElementById('privacyWeightValue').innerText = this.value;">
+        <label for="privacyWeightAssign">Privacy Weight: <span id="privacyWeightValue">0.5</span></label>
+        <input type="range" id="accessibilityWeightAssign" min="0" max="1" step="0.1" value="0.5" oninput="document.getElementById('accessibilityWeightValue').innerText = this.value;">
+        <label for="accessibilityWeightAssign">Accessibility Weight: <span id="accessibilityWeightValue">0.5</span></label>
+        <form id="updateWeightsForm">
             <button type="button" onclick="updatePolicyWithStakeholderWeights()">Update Policy Weights</button>
         </form>
     </div>
+</div>
 
-
-    <h2>Calculate Optimal Policy</h2>
+<div>
+    <h2>Calculate Optimal Policy and Check Consensus</h2>
+    <input type="number" id="utilityThreshold" placeholder="Utility Threshold" required>
+    <h3>Toggle Influence</h3>
+    <label for="alphaToggle" class="switch">
+    <input type="checkbox" id="alphaToggle">
+    <span class="slider round"></span>
+    </label>
+    
     <button onclick="calculateOptimal()">Calculate Optimal Policy</button>
     <div id="optimalPolicyResult"></div>
-
-    <h2>Check Consensus</h2>
-    <input type="number" id="utilityThreshold" placeholder="Utility Threshold" required>
-    <button onclick="checkConsensus()">Check Consensus</button>
-    <div id="consensusResult"></div>
-    
 </div>
 <script src="../static/script.js"></script>
+</div>
 </body>
 </html>

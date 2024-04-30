@@ -10,9 +10,10 @@ def calculate_utility(policy, stakeholder):
     - Utility score as a float.
     """
     utility_score = 0
-    for criterion, weight in stakeholder['weights'].items():
-        policy_score = policy.get(criterion, 0)  # Default to 0 if criterion not in policy
-        utility_score += weight * policy_score
+    for weight_dict in stakeholder['weights']:  # stakeholder['weights'] is now a list of dicts
+        for criterion, weight in weight_dict.items():
+            policy_score = policy.get('details', {}).get(criterion, 0)
+            utility_score += weight * policy_score
     return utility_score
 
 def calculate_aggregate_utility(policies, stakeholders, alpha):
