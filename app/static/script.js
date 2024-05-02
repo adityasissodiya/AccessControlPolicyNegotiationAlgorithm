@@ -81,7 +81,6 @@ function updatePolicy() {
         });
 }
 
-
 function addStakeholder() {
     const stakeholderName = document.getElementById('stakeholderName').value;
     const stakeholderInfluence = document.getElementById('addStakeholderInfluence').value;
@@ -107,7 +106,6 @@ function addStakeholder() {
         })
         .catch(error => console.error('Error adding stakeholder:', error));
 }
-
 
 function fetchPolicies() {
     fetch('http://localhost:5000/get/policies')
@@ -184,14 +182,14 @@ function upDateStakeholder() {
             influence: influence
         })
     })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message); // Show a simple alert to the user indicating success or failure
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to update stakeholder');
-    });
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message); // Show a simple alert to the user indicating success or failure
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to update stakeholder');
+        });
 }
 
 function updateStakeholderForm() {
