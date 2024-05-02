@@ -48,7 +48,8 @@ This application is built using Flask and PostgreSQL for the backend and simple 
 - Docker
 
 ### Build and run the docker container image
-- sudo docker-compose up --build
+- sudo docker-compose exec web flask init-db (to initialize the database)
+- sudo docker-compose up --build (to start the web and db containers)
 - The application should now be running on http://localhost:5000.
 
 ### Access the application
