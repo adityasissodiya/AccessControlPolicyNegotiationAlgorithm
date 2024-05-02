@@ -97,18 +97,21 @@
     </div>
 </div>
 
-<div>
+<div style="text-align: center;">
     <h2>Calculate Optimal Policy and Check Consensus</h2>
     <input type="number" id="utilityThreshold" placeholder="Utility Threshold" required>
-    <h3>Toggle Influence</h3>
-    <label for="alphaToggle" class="switch">
-    <input type="checkbox" id="alphaToggle">
-    <span class="slider round"></span>
-    </label>
-    
+    <br>
+    <label for="alphaToggle" class="switch-label">Toggle Influence</label>
+    <div class="switch">
+        <input type="checkbox" id="alphaToggle">
+        <span class="slider round"></span>
+    </div>
+    <br>
     <button onclick="calculateOptimal()">Calculate Optimal Policy</button>
-    <div id="optimalPolicyResult"></div>
+    <h1 id="optimalPolicyResult"></h1>
 </div>
+
+
 <script src="../static/script.js"></script>
 </div>
 </body>
