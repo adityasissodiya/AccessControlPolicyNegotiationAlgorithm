@@ -1,6 +1,6 @@
 // Update sliders display value
 document.querySelectorAll('input[type="range"]').forEach(input => {
-    input.addEventListener('input', function() {
+    input.addEventListener('input', function () {
         let valueSpan = document.getElementById(`${this.id}Value`);
         valueSpan.textContent = this.value;
     });
@@ -26,22 +26,23 @@ function addPolicy() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ 
-            name: policyName, 
-            details: policyDetails, 
-            description: policyDescription })
+        body: JSON.stringify({
+            name: policyName,
+            details: policyDetails,
+            description: policyDescription
+        })
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message) {
-            alert('Policy added successfully!');
-            console.log(data);
-            window.location.reload(); // This will reload the page after the user clicks 'OK'
-        } else if (data.error) {
-            alert('Failed to add policy: ' + data.error);
-        }
-    })
-    .catch(error => console.error('Error adding policy:', error));
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alert('Policy added successfully!');
+                console.log(data);
+                window.location.reload(); // This will reload the page after the user clicks 'OK'
+            } else if (data.error) {
+                alert('Failed to add policy: ' + data.error);
+            }
+        })
+        .catch(error => console.error('Error adding policy:', error));
 }
 
 function updatePolicy() {
@@ -66,18 +67,18 @@ function updatePolicy() {
             description: policyDescription
         })
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message) {
-            alert('Policy updated successfully!');
-        } else {
-            alert('Error: ' + data.error);
-        }
-    })
-    .catch(error => {
-        console.error('Failed to update policy:', error);
-        alert('Failed to update policy. See console for more details.');
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alert('Policy updated successfully!');
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Failed to update policy:', error);
+            alert('Failed to update policy. See console for more details.');
+        });
 }
 
 
@@ -95,16 +96,16 @@ function addStakeholder() {
             influence: parseFloat(stakeholderInfluence)
         })
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message) {
-            alert('Stakeholder added successfully!');
-            window.location.reload(); // Reloads the page after the user clicks 'OK' in the alert
-        } else {
-            alert('Failed to add stakeholder: Please check the data provided.');
-        }
-    })
-    .catch(error => console.error('Error adding stakeholder:', error));
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alert('Stakeholder added successfully!');
+                window.location.reload(); // Reloads the page after the user clicks 'OK' in the alert
+            } else {
+                alert('Failed to add stakeholder: Please check the data provided.');
+            }
+        })
+        .catch(error => console.error('Error adding stakeholder:', error));
 }
 
 
@@ -146,7 +147,7 @@ function updatePolicyForm() {
 
 
 // Call fetchPolicies on page load or setup
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     fetchPolicies();
 });
 
@@ -219,7 +220,7 @@ function fetchStakeholdersAssign() {
         .catch(error => console.error('Error fetching stakeholders:', error));
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     fetchPoliciesAssign();
     fetchStakeholdersAssign();
     fetchWeightsAndUpdateForm()
@@ -253,7 +254,7 @@ function fetchWeightsAndUpdateForm() {
         .catch(error => console.error('Failed to fetch weights:', error));
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     fetchWeightsAndUpdateForm()
 });
 
@@ -265,10 +266,10 @@ document.getElementById('assignStakeholderSelect').addEventListener('change', fe
 function updatePolicyWithStakeholderWeights() {
     const policySelect = document.getElementById('assignPolicySelect');
     const stakeholderSelect = document.getElementById('assignStakeholderSelect');
-    
+
     const policyName = policySelect.options[policySelect.selectedIndex].text;
     const stakeholderName = stakeholderSelect.options[stakeholderSelect.selectedIndex].text;
-    
+
     const weights = {
         security: parseFloat(document.getElementById('securityWeightAssign').value),
         utility: parseFloat(document.getElementById('utilityWeightAssign').value),
@@ -287,11 +288,11 @@ function updatePolicyWithStakeholderWeights() {
             weights: weights
         })
     })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message); // Displays a message from the server about the result
-    })
-    .catch(error => console.error('Error updating weights:', error));
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message); // Displays a message from the server about the result
+        })
+        .catch(error => console.error('Error updating weights:', error));
 }
 
 function calculateOptimal() {
@@ -317,13 +318,13 @@ function calculateOptimal() {
             alphaEnabled: document.getElementById('alphaToggle').checked
         })
     })
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById('optimalPolicyResult').innerText = `Optimal Policy: ${data.optimal_policy} (Score: ${data.optimal_policy_score}), Consensus: ${data.consensus ? 'Achieved' : 'Not achieved'}`;
-    })
-    .catch(error => {
-        console.error('Error calculating optimal policy:', error);
-        document.getElementById('optimalPolicyResult').innerText = 'Error calculating optimal policy.';
-    });
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('optimalPolicyResult').innerText = `Optimal Policy: ${data.optimal_policy} (Score: ${data.optimal_policy_score}), Consensus: ${data.consensus ? 'Achieved' : 'Not achieved'}`;
+        })
+        .catch(error => {
+            console.error('Error calculating optimal policy:', error);
+            document.getElementById('optimalPolicyResult').innerText = 'Error calculating optimal policy.';
+        });
 }
 
