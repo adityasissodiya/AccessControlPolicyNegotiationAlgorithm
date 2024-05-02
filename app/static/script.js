@@ -170,6 +170,29 @@ function fetchStakeholders() {
 }
 document.addEventListener('DOMContentLoaded', fetchStakeholders);
 
+function upDateStakeholder() {
+    const stakeholderName = document.getElementById('stakeholderSelect').selectedOptions[0].text; // Assuming the option text is the name
+    const influence = document.getElementById('stakeholderInfluence').value;
+
+    fetch('http://localhost:5000/update_stakeholder_by_name', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: stakeholderName,
+            influence: influence
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message); // Show a simple alert to the user indicating success or failure
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to update stakeholder');
+    });
+}
 
 function updateStakeholderForm() {
     const selectedStakeholder = document.getElementById('stakeholderSelect').value;

@@ -116,6 +116,40 @@ def update_policy():
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
+@app.route('/update_stakeholder', methods=['POST'])
+def update_stakeholder():
+    data = request.json
+    stakeholder_id = data.get('stakeholder_id')
+    influence = data.get('influence')
+    try:
+        stakeholder = Stakeholder.query.get(stakeholder_id)
+        if stakeholder:
+            stakeholder.influence = float(influence)
+            db.session.commit()
+            return jsonify({'message': 'Stakeholder updated successfully'}), 200
+        else:
+            return jsonify({'message': 'Stakeholder not found'}), 404
+    except Exception as e:
+        return jsonify({'message': str(e)}), 400
+    
+@app.route('/update_stakeholder_by_name', methods=['POST'])
+def update_stakeholder_by_name():
+    data = request.json
+    name = data.get('name')  # Retrieve the name from the request data
+    influence = data.get('influence')
+    
+    try:
+        # Query the database to find the stakeholder by name
+        stakeholder = Stakeholder.query.filter_by(name=name).first()
+        if stakeholder:
+            stakeholder.influence = float(influence)
+            db.session.commit()
+            return jsonify({'message': 'Stakeholder updated successfully'}), 200
+        else:
+            return jsonify({'message': 'Stakeholder not found'}), 404
+    except Exception as e:
+        return jsonify({'message': str(e)}), 400
+
 @app.route('/update/weights', methods=['POST'])
 def update_weights():
     if not request.json or 'policy_name' not in request.json or 'stakeholder_name' not in request.json or 'weights' not in request.json:
