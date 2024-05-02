@@ -8,6 +8,7 @@ document.querySelectorAll('input[type="range"]').forEach(input => {
 
 function addPolicy() {
     const policyName = document.getElementById('policyName').value;
+    const policyDescription = document.getElementById('policyDescriptionAdd').value;
     const securityScore = document.getElementById('addSecurity').value;
     const utilityScore = document.getElementById('addUtility').value;
     const privacyScore = document.getElementById('addPrivacy').value;
@@ -25,7 +26,10 @@ function addPolicy() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ name: policyName, details: policyDetails })
+        body: JSON.stringify({ 
+            name: policyName, 
+            details: policyDetails, 
+            description: policyDescription })
     })
     .then(response => response.json())
     .then(data => {
@@ -43,6 +47,7 @@ function addPolicy() {
 function updatePolicy() {
     const policySelect = document.getElementById('policySelect');
     const policyName = policySelect.options[policySelect.selectedIndex].text; // Get the selected option's text
+    const policyDescription = document.getElementById('policyDescriptionUpdate').value; // Get the description value
     const details = {
         security: parseInt(document.getElementById('security').value),
         utility: parseInt(document.getElementById('utility').value),
@@ -57,7 +62,8 @@ function updatePolicy() {
         },
         body: JSON.stringify({
             policy_name: policyName,  // Send the policy name
-            details: details
+            details: details,
+            description: policyDescription
         })
     })
     .then(response => response.json())
@@ -133,6 +139,7 @@ function updatePolicyForm() {
             document.getElementById('privacyValue').innerText = data.details.privacy;
             document.getElementById('accessibility').value = data.details.accessibility;
             document.getElementById('accessibilityValue').innerText = data.details.accessibility;
+            document.getElementById('policyDescriptionUpdate').value = data.description;
         })
         .catch(error => console.error('Error updating policy form:', error));
 }

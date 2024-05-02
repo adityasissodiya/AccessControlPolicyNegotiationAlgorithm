@@ -13,6 +13,7 @@
     <h2>Add Policy</h2>
     <form id="policyForm">
         <input type="text" id="policyName" placeholder="Policy Name" required>
+        <input type="text" id="policyDescriptionAdd" placeholder="Policy Description" required>
         <input type="range" id="addSecurity" min="0" max="10" step="1" value="5">
         <label for="addSecurity">Security Score: <span id="addSecurityValue">5</span></label>
         <input type="range" id="addUtility" min="0" max="10" step="1" value="5">
@@ -36,13 +37,14 @@
 
 </div>
 
-<div  >
+<div>
     <h2>Update Policy</h2>
     <form id="policyForm">
         <label for="policySelect">Policy</label>
         <select id="policySelect" onchange="updatePolicyForm()">
             <!-- Options will be populated dynamically from the database -->
         </select>
+        <input type="text" id="policyDescriptionUpdate" placeholder="Policy Description">
         <input type="range" id="security" min="0" max="10" step="1" value="5" oninput="document.getElementById('securityValue').innerText = this.value;">
         <label for="security">Security Score: <span id="securityValue">5</span></label>
         <input type="range" id="utility" min="0" max="10" step="1" value="5" oninput="document.getElementById('utilityValue').innerText = this.value;">

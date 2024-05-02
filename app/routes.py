@@ -8,39 +8,7 @@ utility_threshold = 7  # Utility Threshold for Consensus
 @app.route('/get/policies', methods=['GET'])
 def get_policies():
     policies = Policy.query.all()
-    return jsonify([{'policy_id': p.policy_id, 'name': p.name, 'details': p.details} for p in policies])
-
-@app.route('/get/policy/<name>', methods=['GET'])
-def get_policy_by_name(name):
-    policy = Policy.query.filter_by(name=name).first()
-    if policy:
-        return jsonify({
-            'policy_id': policy.policy_id,
-            'name': policy.name,
-            'details': policy.details
-        })
-    else:
-        return 'Policy not found', 404
-
-@app.route('/update/policy', methods=['POST'])
-def update_policy():
-    data = request.get_json()
-    if not data or 'policy_name' not in data or 'details' not in data:
-        return jsonify({'error': 'Missing policy name or details'}), 400
-
-    policy_name = data['policy_name']
-    policy = Policy.query.filter_by(name=policy_name).first()
-    if not policy:
-        return jsonify({'error': 'Policy not found'}), 404
-
-    try:
-        # Assuming 'details' is a dictionary with updated scores
-        policy.details = data['details']
-        db.session.commit()
-        return jsonify({'message': 'Policy updated successfully'}), 200
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({'error': str(e)}), 500
+    return jsonify([{'policy_id': p.policy_id, 'name': p.name, 'details': p.details, 'description': p.description} for p in policies])
 
 @app.route('/get/stakeholders', methods=['GET'])
 def get_stakeholders():
@@ -64,11 +32,48 @@ def get_weights():
     weights = Weight.query.all()
     return jsonify([{'weight_id': w.weight_id, 'stakeholder_id': w.stakeholder_id, 'policy_id': w.policy_id, 'weights': w.weights} for w in weights])
 
+@app.route('/get/policy/<name>', methods=['GET'])
+def get_policy_by_name(name):
+    policy = Policy.query.filter_by(name=name).first()
+    if policy:
+        return jsonify({
+            'policy_id': policy.policy_id,
+            'name': policy.name,
+            'details': policy.details,
+            'description': policy.description
+        })
+    else:
+        return 'Policy not found', 404
+
+@app.route('/get/weight/<stakeholder_name>/<policy_name>', methods=['GET'])
+def get_weight(stakeholder_name, policy_name):
+    stakeholder = Stakeholder.query.filter_by(name=stakeholder_name).first()
+    if not stakeholder:
+        return jsonify({'error': 'Stakeholder not found'}), 404
+
+    policy = Policy.query.filter_by(name=policy_name).first()
+    if not policy:
+        return jsonify({'error': 'Policy not found'}), 404
+
+    weight_entry = Weight.query.filter_by(stakeholder_id=stakeholder.stakeholder_id, policy_id=policy.policy_id).first()
+    if weight_entry:
+        return jsonify({
+            'stakeholder': stakeholder_name,
+            'policy': policy_name,
+            'weights': weight_entry.weights  # Returning the JSONB data directly
+        })
+    else:
+        return jsonify({'error': 'No weights assigned by this stakeholder to this policy'}), 404
+
 @app.route('/add/policies', methods=['POST'])
 def add_policy():
-    if not request.json or not 'name' in request.json or not 'details' in request.json:
-        abort(400)  # bad request if missing JSON data
-    new_policy = Policy(name=request.json['name'], details=request.json['details'])
+    if not request.json or 'name' not in request.json or 'details' not in request.json:
+        abort(400)
+    new_policy = Policy(
+        name=request.json['name'], 
+        details=request.json['details'],
+        description=request.json.get('description')  # Handle optional description
+    )
     db.session.add(new_policy)
     db.session.commit()
     return jsonify({'message': 'Policy added successfully'}), 201
@@ -91,25 +96,25 @@ def add_weight():
     db.session.commit()
     return jsonify({'message': 'Weight added successfully'}), 201
 
-@app.route('/get/weight/<stakeholder_name>/<policy_name>', methods=['GET'])
-def get_weight(stakeholder_name, policy_name):
-    stakeholder = Stakeholder.query.filter_by(name=stakeholder_name).first()
-    if not stakeholder:
-        return jsonify({'error': 'Stakeholder not found'}), 404
+@app.route('/update/policy', methods=['POST'])
+def update_policy():
+    data = request.get_json()
+    if not data or 'policy_name' not in data or 'details' not in data:
+        return jsonify({'error': 'Missing policy name or details'}), 400
 
+    policy_name = data['policy_name']
     policy = Policy.query.filter_by(name=policy_name).first()
     if not policy:
         return jsonify({'error': 'Policy not found'}), 404
 
-    weight_entry = Weight.query.filter_by(stakeholder_id=stakeholder.stakeholder_id, policy_id=policy.policy_id).first()
-    if weight_entry:
-        return jsonify({
-            'stakeholder': stakeholder_name,
-            'policy': policy_name,
-            'weights': weight_entry.weights  # Returning the JSONB data directly
-        })
-    else:
-        return jsonify({'error': 'No weights assigned by this stakeholder to this policy'}), 404
+    try:
+        policy.details = data['details']
+        policy.description = data.get('description', policy.description)  # Update description if provided
+        db.session.commit()
+        return jsonify({'message': 'Policy updated successfully'}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/update/weights', methods=['POST'])
 def update_weights():
