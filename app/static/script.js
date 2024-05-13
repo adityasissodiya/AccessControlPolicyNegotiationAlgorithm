@@ -349,3 +349,85 @@ function calculateOptimal() {
         });
 }
 
+function deletePolicy() {
+    const policySelect = document.getElementById('policySelectDelete');  // Adjusted from 'stakeholderSelect' to 'policySelect'
+    const policyName = policySelect.options[policySelect.selectedIndex].text;
+
+    if (!policyName) {
+        alert('No policy selected.');
+        return;
+    }
+
+    fetch(`http://localhost:5000/delete/policy/${encodeURIComponent(policyName)}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert('Policy deleted successfully.');
+            policySelect.remove(policySelect.selectedIndex);
+            window.location.reload(); // Reloads the page after successful deletion
+        } else if (data.error) {
+            alert('Failed to delete policy: ' + data.error);
+        }
+    })
+    .catch(error => console.error('Error deleting policy:', error));
+}
+
+function deleteStakeholder() {
+    const stakeholderSelect = document.getElementById('stakeholderSelectDelete');  // Confirm this matches your HTML
+    const stakeholderName = stakeholderSelect.options[stakeholderSelect.selectedIndex].text;
+
+    if (!stakeholderName) {
+        alert('No stakeholder selected.');
+        return;
+    }
+
+    fetch(`http://localhost:5000/delete/stakeholder/${encodeURIComponent(stakeholderName)}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert('Stakeholder deleted successfully.');
+            stakeholderSelect.remove(stakeholderSelect.selectedIndex);
+            window.location.reload(); // Reloads the page after successful deletion
+        } else if (data.error) {
+            alert('Failed to delete stakeholder: ' + data.error);
+        }
+    })
+    .catch(error => console.error('Error deleting stakeholder:', error));
+}
+
+function fetchPoliciesForDeletion() {
+    fetch('http://localhost:5000/get/policies')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('policySelectDelete');
+            select.innerHTML = '';  // Clear existing options
+            data.forEach(policy => {
+                let option = new Option(policy.name, policy.name);  // Using policy name as both text and value
+                select.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching policies:', error));
+}
+
+document.addEventListener('DOMContentLoaded', fetchPoliciesForDeletion);
+
+function fetchStakeholdersForDeletion() {
+    fetch('http://localhost:5000/get/stakeholders')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('stakeholderSelectDelete');
+            select.innerHTML = '';  // Clear existing options
+            data.forEach(stakeholder => {
+                let option = new Option(stakeholder.name, stakeholder.name);  // Using stakeholder name as both text and value
+                select.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching stakeholders:', error));
+}
+
+document.addEventListener('DOMContentLoaded', fetchStakeholdersForDeletion);
+

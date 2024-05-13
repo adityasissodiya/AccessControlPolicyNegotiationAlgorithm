@@ -24,7 +24,7 @@
                 <label for="addPrivacy">Privacy Score: <span id="addPrivacyValue">5</span></label>
                 <input type="range" id="addAccessibility" min="0" max="10" step="1" value="5">
                 <label for="addAccessibility">Accessibility Score: <span id="addAccessibilityValue">5</span></label>
-                <button type="button" onclick="addPolicy()">Submit Policy</button>
+                <button type="button" onclick="addPolicy()">Add Policy</button>
             </form>
         </div>
 
@@ -36,7 +36,15 @@
                     oninput="updateInfluenceValue()">
                 <label for="addStakeholderInfluence">Influence: <span
                         id="addStakeholderInfluenceValue">0.5</span></label>
-                <button type="button" onclick="addStakeholder()">Submit Stakeholder</button>
+                <button type="button" onclick="addStakeholder()">Add Stakeholder</button>
+            </form>
+            <h2>Delete Stakeholder</h2>
+            <form id="stakeholderDeleteForm">
+                <label for="stakeholderSelect">Stakeholder</label>
+                <select id="stakeholderSelectDelete" onchange="updateStakeholderForm()">
+                    <!-- Options will be populated dynamically from the database -->
+                </select>
+                <button type="button" onclick="deleteStakeholder()">Delete Stakeholder</button>
             </form>
         </div>
 
@@ -60,7 +68,7 @@
                 <input type="range" id="accessibility" min="0" max="10" step="1" value="5"
                     oninput="document.getElementById('accessibilityValue').innerText = this.value;">
                 <label for="accessibility">Accessibility Score: <span id="accessibilityValue">5</span></label>
-                <button type="button" onclick="updatePolicy()">Submit Policy</button>
+                <button type="button" onclick="updatePolicy()">Update Policy</button>
             </form>
         </div>
 
@@ -74,7 +82,15 @@
                 <input type="range" id="stakeholderInfluence" min="0" max="2" step="0.1" value="1"
                     oninput="document.getElementById('stakeholderInfluenceValue').innerText = this.value.toFixed(1)">
                 <label for="stakeholderInfluence">Influence: <span id="stakeholderInfluenceValue">0.5</span></label>
-                <button type="button" onclick="upDateStakeholder()">Submit Stakeholder</button>
+                <button type="button" onclick="upDateStakeholder()">Update Stakeholder</button>
+            </form>
+            <h2>Delete Policy</h2>
+            <form id="policyDeleteForm">
+                <label for="policySelect">Policy</label>
+                <select id="policySelectDelete" onchange="updatePolicyForm()">
+                    <!-- Options will be populated dynamically from the database -->
+                </select>
+                <button type="button" onclick="deletePolicy()">Delete Policy</button>
             </form>
         </div>
 

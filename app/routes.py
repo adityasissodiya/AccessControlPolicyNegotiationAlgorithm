@@ -251,5 +251,37 @@ def calculate_optimal_policy():
         'stakeholders_utilities': stakeholders_utilities
     })
 
+@app.route('/delete/policy/<name>', methods=['DELETE'])
+def delete_policy_by_name(name):
+    try:
+        policy = Policy.query.filter_by(name=name).first()
+        if policy:
+            db.session.delete(policy)
+            db.session.commit()
+            return jsonify({'message': 'Policy deleted successfully'}), 200
+        else:
+            return jsonify({'error': 'Policy not found'}), 404
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/delete/stakeholder/<name>', methods=['DELETE'])
+def delete_stakeholder_by_name(name):
+    try:
+        stakeholder = Stakeholder.query.filter_by(name=name).first()
+        if not stakeholder:
+            return jsonify({'error': 'Stakeholder not found'}), 404
+
+        # First delete related weights
+        Weight.query.filter_by(stakeholder_id=stakeholder.stakeholder_id).delete()
+
+        # Now delete the stakeholder
+        db.session.delete(stakeholder)
+        db.session.commit()
+        return jsonify({'message': 'Stakeholder deleted successfully'}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
     app.run(debug=True)
