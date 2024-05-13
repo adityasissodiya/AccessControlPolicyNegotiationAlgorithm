@@ -14,6 +14,11 @@ function addPolicy() {
     const privacyScore = document.getElementById('addPrivacy').value;
     const accessibilityScore = document.getElementById('addAccessibility').value;
 
+    if(policyName === ""){
+        alert('Enter a valid policy name!');
+        return
+    }
+
     const policyDetails = {
         security: parseInt(securityScore),
         utility: parseInt(utilityScore),
@@ -84,6 +89,11 @@ function updatePolicy() {
 function addStakeholder() {
     const stakeholderName = document.getElementById('stakeholderName').value;
     const stakeholderInfluence = document.getElementById('addStakeholderInfluence').value;
+
+    if(stakeholderName === ""){
+        alert('Enter a valid stakeholder name!');
+        return
+    }
 
     fetch('http://localhost:5000/add/stakeholders', {
         method: 'POST',
