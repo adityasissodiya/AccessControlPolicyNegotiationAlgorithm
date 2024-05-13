@@ -34,6 +34,8 @@ The Policy Evaluation Tool is designed to assist in the evaluation and optimizat
 
 - **Add Policies**: Users can add new policies with specific attributes such as security, utility, privacy, and accessibility scores.
 - **Add Stakeholders**: Users can add stakeholders and define their influence levels.
+- **Update Policies & Stakeholders**: Users can update policies and stakeholders.
+- **Delete Policies & Stakeholders**: Users can delete policies and stakeholders.
 - **Assign Weights**: Assign weights to different policy attributes from the perspective of each stakeholder.
 - **Calculate Optimal Policy**: Calculate which policy has the highest aggregate utility based on the weights assigned by all stakeholders.
 - **Check Consensus**: Check if the optimal policy reaches a consensus among stakeholders based on a defined utility threshold.
