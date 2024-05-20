@@ -16,6 +16,8 @@ The primary objective of this experiment is to validate the effectiveness of the
 
 ### Implementation Steps
 
+![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/algorithmFlowchart.png)
+
 1. **Utility Evaluation**: Calculate the utility for each policy from each stakeholder's perspective.
 2. **Aggregate Utility Calculation**: Compute the aggregate utility for each policy.
 3. **Optimization**: Identify the policy that maximizes aggregate utility.
