@@ -58,7 +58,11 @@ This application is built using Flask and PostgreSQL for the backend and simple 
 - Navigate to app/templates/index.html and open the file in a browser.
 - You can now interact with the tool.
 - To shut the server down press Ctrl+C to gracefully bring down the containers.
-- Run "sudo docker-compose down" and "sudo systemctl restart docker" if the containers aren't up after a shutdown. 
+- Run "sudo docker-compose down" and "sudo systemctl restart docker" if the containers aren't up after a shutdown.
+
+### Access the database
+- https://medium.com/@bennokohrs/connect-to-postgresql-database-inside-docker-container-7dab32435b49
+- Check the docker-compose.yml file for credentials and database name.
 
 ## Figures
 ![alt text](https://github.com/adityasissodiya/abacPolicyNegotiationAlgorithm/blob/main/figures/stakeholderUtilityHeatmap.png)
